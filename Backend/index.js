@@ -1,37 +1,17 @@
-
-// import express from "express";
-// import cors from "cors"
-// import users from "./user.js";
-
-
-// const app = express()
-
-// app.use(cors())
-// app.get("/",(req,res)=>{
-//     res.send(" express server is working")
-// })
-
-// app.get("/api/user",(req,res)=>{
-//     res.send(users)
-// })
-
-// const port = process.env.PORT || 3000
-// app.listen(port,()=>{
-//     console.log(`server at http://localhost:${port}`)
-// })
-
-
-
-// ES Module imports
 import express from "express";
 import cors from "cors";
+import multer from "multer";
 
 const app = express();
-app.use(cors()); // allow React frontend to fetch
+app.use(cors());
+app.use(express.json());
 
-// Fake candidate data
-const candidates = [
-  { id: 1, name: "Aarav Mehta", jobTitle: "Frontend Developer", status: "Pending" },
+
+const upload = multer({ dest: "uploads/" });
+
+// sample data
+let candidates = [
+
   { id: 2, name: "Diya Sharma", jobTitle: "Backend Engineer", status: "Reviewed" },
   { id: 3, name: "Rohan Gupta", jobTitle: "Full Stack Developer", status: "Hired" },
   { id: 4, name: "Sneha Iyer", jobTitle: "UI/UX Designer", status: "Pending" },
@@ -43,12 +23,37 @@ const candidates = [
   { id: 10, name: "Neha Joshi", jobTitle: "HR Associate", status: "Hired" }
 ];
 
-// API endpoint
+
 app.get("/api/candidates", (req, res) => {
   res.json(candidates);
 });
 
-// Start server
+app.post("/api/candidates", upload.single("resume"), (req, res) => {
+  const { name, email, phone, jobTitle } = req.body;
+  const resume = req.file ? req.file.filename : null;
+
+  if (!name || !email || !phone || !jobTitle) {
+    return res.status(400).json({ message: "All fields except resume are required." });
+  }
+
+
+  const newCandidate = {
+    id: candidates.length + 1,
+    name,
+    email,
+    phone,
+    jobTitle,
+    resume,
+    status: "Pending",
+  };
+
+  candidates.push(newCandidate);
+  console.log("New Candidate Added:", newCandidate);
+  res.status(201).json({ message: "Candidate added successfully!", candidate: newCandidate });
+});
+
+
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
