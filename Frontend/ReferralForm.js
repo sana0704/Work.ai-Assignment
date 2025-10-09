@@ -10,7 +10,6 @@ const{
 
 // const onsubmit =(data)=> console.log(data)
 
-
 const onSubmit = async (data) => {
     
     const formData = new FormData();
@@ -30,10 +29,8 @@ const onSubmit = async (data) => {
 
       if (!response.ok) throw new Error("Failed to submit form");
       const result = await response.json();
-      console.log("Server response:", result);
       alert("Candidate referred successfully!");
     } catch (error) {
-      console.error("Error submitting form:", error);
       alert("Something went wrong while submitting");
     }
   };
@@ -41,26 +38,34 @@ const onSubmit = async (data) => {
   return (
     <div>
       <h3>Refer a candidate</h3>
-     <form action={handleSubmit(onSubmit)}>
+     <form onSubmit={handleSubmit(onSubmit)}>
 
-<input placeholder='name' {...register("Name",{required: true,minLength:3,maxLength:10})} 
-type='text' />
-{errors.Name && <div>There is Some error in name</div>}
+<input type='text' placeholder='Name'{...register("Name",{required: true, minLength:{value: 3,
+ message: 'min length is 3'}, maxLength:{value:8,message: 'max length is 8'}})}/>
+{errors.Name && <p>{errors.Name.message}</p>}
 <br />
 
 
-<input placeholder='email@gmail.com'{...register("email")} type='text'/>
+<input type="text" placeholder='email@gmail.com'{...register("email" ,{required : {value: true ,message:'this field is required'} })}/>
+{errors.email && <p>{errors.email.message}</p>}
+
+
+<input type='text' placeholder = 'phoneNumber' {...register("phoneNumber",
+  { required: "Phone number is required",maxLength:{value:8,message: 'max length is 8'} })} />
+  {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 <br />
-<input placeholder = 'phoneNumber' {...register("phoneNumber")} type='text'/>
+
+<input type='text' placeholder='JobTitle' {...register("jobTitle",{ required: "Job title is required" })} />
+ {errors.jobTitle && <p>{errors.jobTitle.message}</p>}
 <br />
-<input placeholder='JobTitle' {...register("jobTitle")} type='text'/>
-<br />
-<input type='file' placeholder='upload resume' accept='.pdf' {...register('resume')}/>
+
+<input type='file' accept='.pdf' {...register('resume')}/>
 <br/>
+
 <input type='submit' value="submit"/>
      </form>
     </div>
-  )
-}
+  );
+};
 
 export default ReferralForm;
