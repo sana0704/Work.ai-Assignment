@@ -21,23 +21,25 @@ Used fake data generation to simulate real-world responses for development testi
 
 b. Steps to Run the Project Locally
 1️. Clone the repository
-git clone https://github.com/yourusername/referral-system.git
+https://github.com/sana0704/Work.ai-Assignment.git
 
 2️ Run the backend server
-cd server
-npm install
-npm run dev
+cd Backened
+npm install express 
+npm install cors
+npm start
 The backend will start on http://localhost:5000
 
 3️ Run the frontend
+cd Frontend
+npx install create react-app my-app
 cd ../my-app
-npm install
 npm start
 The frontend will start on http://localhost:3000
 
 4️ Open your browser
 Visit: http://localhost:3000
-You’ll be able to create a profile, add referrals, and view candidate data.
+You’ll be able to view candidate data add referrals and create a profile.
 
 Assumptions
 
