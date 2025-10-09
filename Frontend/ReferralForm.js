@@ -51,7 +51,7 @@ const onSubmit = async (data) => {
 
 
 <input type='text' placeholder = 'phoneNumber' {...register("phoneNumber",
-  { required: "Phone number is required",maxLength:{value:8,message: 'max length is 8'} })} />
+  { required: "Phone number is required",maxLength:{value:10 ,message: 'max length is 10'} })} />
   {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 <br />
 
